@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateItemRequest;
+use App\Http\Requests\ItemUpdateRequest;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -27,7 +28,7 @@ class ItemController extends Controller
         $item->image = $request->file('item_image')->store('', 'items');
         $item->save();
 
-        return redirect()->route('home')->with('success', 'Item added to database!');
+        return redirect()->route('home')->with('success', 'Item added successfullÿ!');
     }
 
     public function editItem($id)
@@ -39,8 +40,19 @@ class ItemController extends Controller
         ]);
     }
 
-    public function updateItem(Request $request)
+    public function updateItem($id, ItemUpdateRequest $request)
     {
+        $item = Item::where('id', $id)->firstOrFail();
 
+        $item->title = $request->get('item_title');
+        $item->price = $request->get('item_price');
+
+        if ($request->hasFile('item_image')) {
+            $item->image = $request->file('item_image')->store('', 'items');
+        }
+
+        $item->save();
+
+        return redirect()->route('home')->with('success', 'Item updated successfully!');
     }
 }

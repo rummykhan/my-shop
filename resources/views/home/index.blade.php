@@ -15,6 +15,12 @@
 
     <a href="{{ route('create-item-form') }}" class="btn btn-primary">Add Item</a>
 
+    @if(session()->has('success'))
+        <div class="alert alert-success my-3" role="alert">
+            {{ session()->get('success') }}
+        </div>
+    @endif
+
     @foreach(array_chunk($items->items(), 3) as $itemsCunk)
         <div class="row my-3">
             @foreach($itemsCunk as $item)
