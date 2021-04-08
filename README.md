@@ -2,7 +2,7 @@
 
 ## Setup
 
-- Clone this repo using `git clone git@github.com:rummykhan/image-upload.git`
+- Clone this repo using `git clone git@github.com:rummykhan/my-shop.git`
 - Goto project dir `cd image-upload`
 - Create .env file `cp .env.example .env`
 - Run `composer install`
