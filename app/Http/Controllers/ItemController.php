@@ -7,6 +7,9 @@ use App\Http\Requests\ItemUpdateRequest;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xls;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class ItemController extends Controller
 {
@@ -81,5 +84,36 @@ class ItemController extends Controller
         }
 
         fclose($handle);
+    }
+
+    public function exportToExcel()
+    {
+        $data = [];
+
+        $data[] = [
+            'Id',
+            'Title',
+            'Price',
+            'Created At'
+        ];
+
+        /** @var Item $item */
+        foreach (Item::get() as $item) {
+            $data[] = [
+                $item->id,
+                $item->title,
+                $item->price,
+                $item->created_at
+            ];
+        }
+
+        $spreadSheet = new Spreadsheet();
+        $spreadSheet->getActiveSheet()->fromArray($data);
+
+        $excel = new Xlsx($spreadSheet);
+
+        $excel->save(storage_path('downloads/item_catalog' . time() . '.xlsx'));
+
+        return back()->with('success', 'Your download is being prepared, we will notify you shortly');
     }
 }
