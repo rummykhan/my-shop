@@ -14,7 +14,7 @@ class HomeController extends Controller
         $builder = Item::where('id', '>', 0);
 
         $items = $builder->orderBy('id', 'DESC')
-            ->paginate(18);
+            ->paginate(150);
 
         return view('home.index', [
             'items' => $items,

@@ -10,6 +10,7 @@
 - Update db in `.env`
 - Run migrations `php artisan migrate`
 - Run item seeder `php artisan db:seed --class=ItemSeeder`
+- Link storage `php artisan storage:link`  
 - Run your app using `php -S localhost:1234 -t public`
 - Goto browser `http://localhost:1234`, you should see the app.
 

@@ -13,7 +13,17 @@
         </p>
     </div>
 
-    <a href="{{ route('create-item-form') }}" class="btn btn-primary">Add Item</a>
+    <div class="row">
+        <div class="col-6 text-lg-left text-sm-center">
+            <a href="{{ route('create-item-form') }}" class="btn btn-primary">Add Item</a>
+        </div>
+        <div class="col-6 text-lg-right text-sm-center">
+            <a href="{{ route('export-csv') }}" class="btn btn-primary">
+                <i class="bi bi-file-earmark-excel"></i> Export items to CSV
+            </a>
+        </div>
+    </div>
+
 
     @if(session()->has('success'))
         <div class="alert alert-success my-3" role="alert">
@@ -25,18 +35,7 @@
         <div class="row my-3">
             @foreach($itemsCunk as $item)
                 <div class="col-4">
-
-                    <div class="card">
-                        <div
-                            style="background-image:url({{ $item->getImageUrl() }});background-size:cover;background-position:center top;height:140px;"
-                            class="card-img-top"></div>
-                        <div class="card-body">
-                            <h5 class="card-title">$ {{ $item->price }}</h5>
-                            <p class="card-text" style="min-height:2rem;">{{ \Illuminate\Support\Str::limit($item->title, 30) }}</p>
-                            <a href="{{ route('edit-item', ['id' => $item->id]) }}" class="btn btn-primary">Edit</a>
-                        </div>
-                    </div>
-
+                    @include('home.partials.item', ['item' => $item])
                 </div>
             @endforeach
         </div>

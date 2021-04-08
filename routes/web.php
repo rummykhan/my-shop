@@ -20,3 +20,5 @@ Route::post('/create-item', 'ItemController@createItem')->name('create-item');
 
 Route::get('/{id}/edit-item', 'ItemController@editItem')->name('edit-item');
 Route::post('/{id}/update-item', 'ItemController@updateItem')->name('update-item');
+
+Route::post('/{id}/update-item', 'ItemController@exportToCsv')->name('export-to-csv');

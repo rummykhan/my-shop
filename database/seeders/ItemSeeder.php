@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Item;
-use Database\Factories\ItemFactory;
 use Illuminate\Database\Seeder;
 
 class ItemSeeder extends Seeder
@@ -15,21 +14,11 @@ class ItemSeeder extends Seeder
      */
     public function run()
     {
-        $total = 50;
+        Item::factory(100)
+            ->afterMaking(function($item){
 
-        $output = $this->command->getOutput();
-
-        $progressBar = $output->createProgressBar($total);
-
-        Item::factory($total)
-            ->afterCreating(function ($item) use ($progressBar) {
-
-                $progressBar->advance(1);
-
+                $this->command->line($item->title);
             })
             ->create();
-
-        $progressBar->finish();
-        $this->command->line("");
     }
 }
