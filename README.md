@@ -3,7 +3,7 @@
 ## Setup
 
 - Clone this repo using `git clone git@github.com:rummykhan/my-shop.git`
-- Goto project dir `cd image-upload`
+- Goto project dir `cd my-shop`
 - Create .env file `cp .env.example .env`
 - Run `composer install`
 - Create app key `php artisan key:generate`

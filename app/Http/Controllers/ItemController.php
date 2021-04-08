@@ -58,6 +58,28 @@ class ItemController extends Controller
 
     public function exportToCsv()
     {
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename=catalog_' . time() . '.csv');
 
+        $handle = fopen('php://output', 'w');
+
+        fputcsv($handle, [
+            'ID',
+            'Item Title',
+            'Item Prce',
+            'Created At'
+        ]);
+
+        /** @var Item $item */
+        foreach (Item::get() as $item) {
+            fputcsv($handle, [
+                $item->id,
+                $item->title,
+                $item->price,
+                $item->created_at
+            ]);
+        }
+
+        fclose($handle);
     }
 }
