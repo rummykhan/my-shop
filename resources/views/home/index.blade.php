@@ -18,7 +18,7 @@
             <a href="{{ route('create-item-form') }}" class="btn btn-primary">Add Item</a>
         </div>
         <div class="col-6 text-lg-right text-sm-center">
-            <a href="{{ route('export-csv') }}" class="btn btn-primary">
+            <a href="{{ route('export-to-csv') }}" class="btn btn-primary">
                 <i class="bi bi-file-earmark-excel"></i> Export items to CSV
             </a>
         </div>
