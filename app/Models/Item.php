@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $title
  * @property string $image
  * @property float $price
+ * @property integer $category_id
  *
  * @property string $created_at
  * @property string $updated_at
