@@ -32,7 +32,8 @@
 
 
             <div class="col-6">
-                <img src="{{ asset('/images/placeholder.jpeg') }}" alt="" id="img-thumbnail" class="img-thumbnail">
+
+                <img src="{{ asset('/images/placeholder/placeholder.jpeg') }}" alt="" id="img-thumbnail" class="img-thumbnail">
             </div>
 
         </div>
