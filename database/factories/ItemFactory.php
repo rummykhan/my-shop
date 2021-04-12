@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use App\Models\Item;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Storage;
@@ -25,13 +26,20 @@ class ItemFactory extends Factory
     {
         $imageUrl = $this->getImageUrl();
         $imageName = Str::random(32) . '.png';
+        $itemTitle = 'iPhone - ' . $this->faker->name;
+
+        print("Making item: {$itemTitle} \r\n");
+        print(" Downloading & Saving image: {$imageUrl}\r\n");
 
         Storage::disk('items')->put($imageName, file_get_contents($imageUrl));
 
+        $category = Category::first();
+
         return [
-            'title' => 'iPhone - ' . $this->faker->name,
+            'title' => $itemTitle,
             'price' => rand(800, 1000),
-            'image' => $imageName
+            'image' => $imageName,
+            'category_id' => $category ? $category->id : null,
         ];
     }
 

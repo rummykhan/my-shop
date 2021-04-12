@@ -42,6 +42,11 @@
         </div>
     @endif
 
+
+    @foreach($categories as $category)
+
+    @endforeach
+
     @foreach(array_chunk($items->items(), 3) as $itemsCunk)
         <div class="row my-3">
             @foreach($itemsCunk as $item)
