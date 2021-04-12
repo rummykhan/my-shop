@@ -5,8 +5,10 @@ namespace Database\Factories;
 use App\Models\Category;
 use App\Models\Item;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use phpDocumentor\Reflection\Types\AbstractList;
 
 class ItemFactory extends Factory
 {
@@ -28,18 +30,12 @@ class ItemFactory extends Factory
         $imageName = Str::random(32) . '.png';
         $itemTitle = 'iPhone - ' . $this->faker->name;
 
-        print("Making item: {$itemTitle} \r\n");
-        print(" Downloading & Saving image: {$imageUrl}\r\n");
-
-        Storage::disk('items')->put($imageName, file_get_contents($imageUrl));
-
-        $category = Category::first();
-
         return [
             'title' => $itemTitle,
             'price' => rand(800, 1000),
+            'image_url' => $imageUrl,
             'image' => $imageName,
-            'category_id' => $category ? $category->id : null,
+            'category_id' => null,
         ];
     }
 

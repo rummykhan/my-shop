@@ -23,10 +23,10 @@ class CategoryFactory extends Factory
      */
     public function definition()
     {
-        $imageUrl = 'https://fdn.gsmarena.com/imgroot/reviews/20/apple-iphone-12/lifestyle/-1200w5/gsmarena_021.jpg';
+        $imageUrl = 'https://cdn.vox-cdn.com/thumbor/D9XXOcVoGDtJCIJHpHbi_OKI5hY=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/9283449/jbareham_170916_2000_0057.jpg';
         $imageName = Str::random(32) . '.jpg';
 
-        Storage::disk('items')->put($imageName, file_get_contents($imageUrl));
+        Storage::disk('categories')->put($imageName, file_get_contents($imageUrl));
 
         return [
             'name' => 'Mobiles',

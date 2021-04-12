@@ -18,6 +18,8 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property string $created_at
  * @property string $updated_at
+ *
+ * @property Category $category
  */
 class Item extends Model
 {
@@ -32,5 +34,10 @@ class Item extends Model
         }
 
         return asset('/items/' . $this->image);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 }

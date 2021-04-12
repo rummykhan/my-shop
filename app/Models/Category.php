@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class Category
@@ -32,5 +33,10 @@ class Category extends Model
     public function items(): HasMany
     {
         return $this->hasMany(Item::class, 'category_id', 'id');
+    }
+
+    public function getImageUrl()
+    {
+        return asset('/categories/' . $this->image);
     }
 }

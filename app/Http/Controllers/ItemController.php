@@ -3,27 +3,44 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateItemRequest;
-use App\Http\Requests\ItemUpdateRequest;
 use App\Models\Item;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class ItemController extends Controller
 {
-    public function items()
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
     {
+        $items = Item::paginate(40);
 
+        return view('item.index', [
+            'items' => $items,
+        ]);
     }
 
-    public function createItemForm()
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
     {
-        return view('items.create');
+        return view('item.create');
     }
 
-    public function createItem(CreateItemRequest $request)
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param CreateItemRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(CreateItemRequest $request)
     {
         $item = new Item();
         $item->title = $request->get('item_title');
@@ -31,22 +48,42 @@ class ItemController extends Controller
         $item->image = $request->file('item_image')->store('', 'items');
         $item->save();
 
-        return redirect()->route('home')->with('success', 'Item added successfullÿ!');
+        return redirect()->route('item.index')->with('success', 'Item added successfullÿ!');
     }
 
-    public function editItem($id)
+    /**
+     * Display the specified resource.
+     *
+     * @param \App\Models\Item $item
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Item $item)
     {
-        $item = Item::where('id', $id)->firstOrFail();
+        //
+    }
 
-        return view('items.edit', [
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param \App\Models\Item $item
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Item $item)
+    {
+        return view('item.edit', [
             'item' => $item,
         ]);
     }
 
-    public function updateItem($id, ItemUpdateRequest $request)
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Item $item
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Item $item)
     {
-        $item = Item::where('id', $id)->firstOrFail();
-
         $item->title = $request->get('item_title');
         $item->price = $request->get('item_price');
 
@@ -56,7 +93,18 @@ class ItemController extends Controller
 
         $item->save();
 
-        return redirect()->route('home')->with('success', 'Item updated successfully!');
+        return back()->with('success', 'Item updated successfully!');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param \App\Models\Item $item
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Item $item)
+    {
+        //
     }
 
     public function exportToCsv()
