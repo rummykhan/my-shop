@@ -15,10 +15,6 @@ class ItemSeeder extends Seeder
     public function run()
     {
         Item::factory(100)
-            ->afterMaking(function($item){
-
-                $this->command->line($item->title);
-            })
             ->create();
     }
 }
