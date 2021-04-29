@@ -48,14 +48,23 @@ class ReBuildCatalog extends Command
         $newCatalog = [];
         foreach ($catalogJson as $index => $item) {
 
+            $itemPrice = $item['price'];
+
+            if ($itemPrice <= 0) {
+                continue;
+            }
+
+            if ($itemPrice > 500) {
+                $itemPrice = intval($itemPrice / 3.65);
+            }
+
             $newCatalog[] = [
                 'title' => $this->cleanTitle($item['title']),
                 'description' => $this->cleanDescription($item['description']),
                 'brand' => strpos(strtolower($item['brand']), 'cartlow') !== false ? '' : $item['brand'],
                 'inventory' => $item['inventory'],
                 'image' => $s3Url . '/' . $item['image'],
-                'original_price' => $item['price'],
-                'discounted_price' => $item['discounted_price'],
+                'price' => $itemPrice,
                 'google_product_category' => $item['google_product_category'],
                 'google_product_type' => $item['product_type'],
                 'category' => $this->getCategory($item['product_type'])
@@ -84,7 +93,7 @@ class ReBuildCatalog extends Command
             return null;
         }
 
-        return $categories[0];
+        return trim($categories[0]);
     }
 
     public function cleanTitle($title)
