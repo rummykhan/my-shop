@@ -7,7 +7,7 @@ use App\Models\Item;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function __invoke()
     {
         $items = Item::where('id', '>', 0)
             ->orderBy('id', 'DESC')

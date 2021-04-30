@@ -35,6 +35,19 @@
         </div>
     </div>
 
+    <div class="row my-3">
+        <div class="col-12">
+
+            @foreach($categories as $category)
+                <a href="{{ route('category.edit', ['category' => $category->id]) }}"
+                    class="btn btn-primary btn-sm">
+                    {{ $category->name }}
+                </a>
+            @endforeach
+
+        </div>
+    </div>
+
 
     @if(session()->has('success'))
         <div class="alert alert-success my-3" role="alert">

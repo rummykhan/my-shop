@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController')->name('home');
 
 Route::get('/create-item-form', 'ItemController@createItemForm')->name('create-item-form');
 Route::post('/create-item', 'ItemController@createItem')->name('create-item');
