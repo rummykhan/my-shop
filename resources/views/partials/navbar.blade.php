@@ -23,7 +23,9 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     @foreach(\App\Models\Category::all() as $category)
-                        <a class="dropdown-item" href="#">{{ $category->name }}</a>
+                        <a class="dropdown-item" href="{{ route('category-items', ['id' => $category->id]) }}">
+                            {{ $category->name }}
+                        </a>
                     @endforeach
                 </div>
             </li>
