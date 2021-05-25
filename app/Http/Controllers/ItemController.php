@@ -13,9 +13,13 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class ItemController extends Controller
 {
-    public function items()
+    public function index()
     {
+        $items = Item::query()
+            ->orderBy('id', 'DESC')
+            ->paginate(25);
 
+        return view('items.index', compact('items'));
     }
 
     public function createItemForm()
@@ -31,7 +35,7 @@ class ItemController extends Controller
         $item->image = $request->file('item_image')->store('', 'items');
         $item->save();
 
-        return redirect()->route('home')->with('success', 'Item added successfullÿ!');
+        return redirect()->route('items-index')->with('success', 'Item added successfully!');
     }
 
     public function editItem($id)
@@ -56,7 +60,7 @@ class ItemController extends Controller
 
         $item->save();
 
-        return redirect()->route('home')->with('success', 'Item updated successfully!');
+        return back()->with('success', 'Item updated successfully!');
     }
 
     public function exportToCsv()

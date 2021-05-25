@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -14,7 +15,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::query()
+            ->orderBy('id', 'DESC')
+            ->paginate(25);
+
+        return view('categories.index', compact('categories'));
     }
 
     /**
@@ -24,7 +29,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('categories.create');
     }
 
     /**
@@ -35,7 +40,23 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'image'=> ['image', 'required']
+        ]);
+
+        $name = $request->file('image')->store('', 'categories');
+
+        if(false === $name){
+            return back()->with('error', 'Unable to save image.');
+        }
+
+        $model = new Category();
+        $model->fill($request->all());
+        $model->image = $name;
+        $model->save();
+
+        return redirect()->route('category.index')->with('success', 'Category added');
     }
 
     /**
@@ -57,7 +78,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view('category.edit', compact('category'));
+        return view('categories.edit', compact('category'));
     }
 
     /**
@@ -69,7 +90,21 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'image'=> ['image', 'required']
+        ]);
+
+        $name = $request->file('image')->store('', 'categories');
+        if(false === $name){
+            return back()->with('error', 'Unable to save image, please try again');
+        }
+
+        $category->update($request->all());
+        $category->image = $name;
+        $category->save();
+
+        return back()->with('success', 'Category updated!');
     }
 
     /**

@@ -26,11 +26,24 @@ class Category extends Model
 
     protected $table = 'categories';
 
+    protected $fillable = [
+        'name'
+    ];
+
     /**
      * @return HasMany
      */
     public function items(): HasMany
     {
         return $this->hasMany(Item::class, 'category_id', 'id');
+    }
+
+    public function getImageUrl()
+    {
+        if (!$this->image) {
+            return "https://via.placeholder.com/500x500.png/006644?text=asperiores";
+        }
+
+        return asset('/categories/' . $this->image);
     }
 }

@@ -13,8 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'HomeController')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
+Route::get('/category/{id}/items', 'HomeController@categoryItems')->name('category-items');
 
+// Items Route
+Route::get('/items', 'ItemController@index')->name('items-index');
 Route::get('/create-item-form', 'ItemController@createItemForm')->name('create-item-form');
 Route::post('/create-item', 'ItemController@createItem')->name('create-item');
 
@@ -24,4 +27,5 @@ Route::post('/{id}/update-item', 'ItemController@updateItem')->name('update-item
 Route::post('/export-to-csv', 'ItemController@exportToCsv')->name('export-to-csv');
 Route::post('/export-to-excel', 'ItemController@exportToExcel')->name('export-to-excel');
 
+// Category Route
 Route::resource('category', 'CategoryController');

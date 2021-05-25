@@ -13,33 +13,11 @@
         </p>
     </div>
 
-    <div class="row">
-        <div class="col-6 text-lg-left text-sm-center">
-            <a href="{{ route('create-item-form') }}" class="btn btn-primary">Add Item</a>
-        </div>
-        <div class="col-6 text-lg-right text-sm-center">
-            <form action="{{ route('export-to-excel') }}" method="POST" style="display:inline-block;">
-                @csrf
-                <button type="submit" class="btn btn-success">
-                    <i class="bi bi-file-earmark-excel"></i> Export items to excel
-                </button>
-            </form>
-
-            <form action="{{ route('export-to-csv') }}" method="POST" style="display:inline-block;">
-                @csrf
-                <button type="submit" class="btn btn-primary">
-                    <i class="bi bi-file-earmark-excel"></i> Export items to CSV
-                </button>
-            </form>
-
-        </div>
-    </div>
-
     <div class="row my-3">
         <div class="col-12">
 
             @foreach($categories as $category)
-                <a href="{{ route('category.edit', ['category' => $category->id]) }}"
+                <a href="{{ route('category-items', ['id' => $category->id]) }}"
                     class="btn btn-primary btn-sm">
                     {{ $category->name }}
                 </a>
@@ -48,17 +26,7 @@
         </div>
     </div>
 
-
-    @if(session()->has('success'))
-        <div class="alert alert-success my-3" role="alert">
-            {{ session()->get('success') }}
-        </div>
-    @endif
-
-
-    @foreach($categories as $category)
-
-    @endforeach
+    @include('partials.session-messages')
 
     @foreach(array_chunk($items->items(), 3) as $itemsCunk)
         <div class="row my-3">

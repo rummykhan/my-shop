@@ -26,7 +26,7 @@ class CategoryFactory extends Factory
         $imageUrl = 'https://fdn.gsmarena.com/imgroot/reviews/20/apple-iphone-12/lifestyle/-1200w5/gsmarena_021.jpg';
         $imageName = Str::random(32) . '.jpg';
 
-        Storage::disk('items')->put($imageName, file_get_contents($imageUrl));
+        Storage::disk('categories')->put($imageName, file_get_contents($imageUrl));
 
         return [
             'name' => 'Mobiles',

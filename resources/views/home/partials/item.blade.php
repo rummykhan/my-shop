@@ -8,6 +8,5 @@
         <p class="card-text" style="min-height:2rem;">
             @item_title($item->title)
         </p>
-        <a href="{{ route('edit-item', ['id' => $item->id]) }}" class="btn btn-primary">Edit</a>
     </div>
 </div>

@@ -7,7 +7,7 @@ use App\Models\Item;
 
 class HomeController extends Controller
 {
-    public function __invoke()
+    public function index()
     {
         $items = Item::where('id', '>', 0)
             ->orderBy('id', 'DESC')
@@ -19,5 +19,15 @@ class HomeController extends Controller
             'items' => $items,
             'categories' => $categories,
         ]);
+    }
+
+    public function categoryItems($id)
+    {
+        /** @var Category $model */
+        $model = Category::query()->where('id', $id)->firstOrFail();
+
+        $items = $model->items()->paginate(25);
+
+        return view('home.category-items', compact('model', 'items'));
     }
 }
