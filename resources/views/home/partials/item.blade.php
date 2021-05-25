@@ -6,7 +6,7 @@
         <h5 class="card-title">$ @item_price($item->price)</h5>
 
         <p class="card-text" style="min-height:2rem;">
-            @item_title($item->title)
+            @item_title($item->title, 100)
         </p>
     </div>
 </div>

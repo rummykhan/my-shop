@@ -32,7 +32,8 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
 
         Blade::directive('item_title', function($title){
-            return "<?php echo Str::limit($title, 25) ?>";
+            [$title, $length] = explode(', ', $title);
+            return "<?php echo Str::limit($title, $length) ?>";
         });
 
         Blade::directive('item_price', function($price){
