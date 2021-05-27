@@ -29,3 +29,12 @@ Route::post('/export-to-excel', 'ItemController@exportToExcel')->name('export-to
 
 // Category Route
 Route::resource('category', 'CategoryController');
+
+
+Route::get('/seller/login', 'SellerController@login')->name('seller-login');
+Route::post('/seller/login', 'SellerController@authenticate')->name('seller-authenticate');
+Route::post('/seller/logout', 'SellerController@logout')->name('seller-logout');
+
+Route::get('/customer/login', 'CustomerController@login')->name('customer-login');
+Route::post('/customer/login', 'CustomerController@authenticate')->name('customer-authenticate');
+Route::post('/customer/logout', 'CustomerController@logout')->name('customer-logout');

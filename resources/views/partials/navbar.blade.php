@@ -33,20 +33,70 @@
 
         <ul class="navbar-nav ml-auto">
 
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">
-                    <i class="bi bi-gear"></i> Setting
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{ route('items-index') }}">
-                        <i class="bi bi-box"></i> Items
+            @if(auth('seller')->check())
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <i class="bi bi-gear"></i> {{ auth()->guard('seller')->user()->name }}
                     </a>
-                    <a class="dropdown-item" href="{{ route('category.index') }}">
-                        <i class="bi bi-app"></i> Categories
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route('items-index') }}">
+                            <i class="bi bi-box"></i> Items
+                        </a>
+                        <a class="dropdown-item" href="{{ route('category.index') }}">
+                            <i class="bi bi-app"></i> Categories
+                        </a>
+
+                        <form action="{{ route('seller-logout') }}" method="POST" id="seller-logout-form">
+                            @csrf
+                        </form>
+                        <a class="dropdown-item" href="#"
+                           onclick="if(confirm('Are you sure?')){$('#seller-logout-form').submit();}">
+                            Logout
+                        </a>
+                    </div>
+                </li>
+            @endif
+
+            @if(auth('customer')->check())
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <i class="bi bi-gear"></i> {{ auth()->guard('customer')->user()->name }}
                     </a>
-                </div>
-            </li>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                        <form action="{{ route('customer-logout') }}" method="POST" id="customer-logout-form">
+                            @csrf
+                        </form>
+                        <a class="dropdown-item" href="#"
+                           onclick="if(confirm('Are you sure?')){$('#customer-logout-form').submit();}">
+                            Logout
+                        </a>
+                    </div>
+                </li>
+            @endif
+
+            @if(!auth('seller')->check() && !auth('customer')->check())
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <i class="bi bi-gear"></i> Setting
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route('customer-login') }}">
+                            <i class="bi bi-user"></i> Customer Login
+                        </a>
+                        <a class="dropdown-item" href="{{ route('seller-login') }}">
+                            <i class="bi bi-shop"></i> Seller Login
+                        </a>
+
+                    </div>
+                </li>
+            @endif
         </ul>
     </div>
 </nav>

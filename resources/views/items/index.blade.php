@@ -34,6 +34,8 @@
         </div>
     </div>
 
+    @include('partials.session-messages')
+
     <table class="table table-striped table-hover table-bordered">
         <thead>
             <tr>
