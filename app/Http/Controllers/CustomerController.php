@@ -43,6 +43,6 @@ class CustomerController extends Controller
     {
         Auth::guard('customer')->logout();
 
-        return back()->with('success', 'Logged out!');
+        return redirect()->route('home')->with('success', 'Logged out!');
     }
 }

@@ -38,7 +38,7 @@
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                        data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">
-                        <i class="bi bi-gear"></i> {{ auth()->guard('seller')->user()->name }}
+                        <i class="bi bi-shop"></i> {{ auth()->guard('seller')->user()->name }}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ route('items-index') }}">
@@ -53,7 +53,7 @@
                         </form>
                         <a class="dropdown-item" href="#"
                            onclick="if(confirm('Are you sure?')){$('#seller-logout-form').submit();}">
-                            Logout
+                            <i class="bi bi-box-arrow-right"></i> Logout
                         </a>
                     </div>
                 </li>
@@ -64,37 +64,35 @@
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                        data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">
-                        <i class="bi bi-gear"></i> {{ auth()->guard('customer')->user()->name }}
+                        <i class="bi bi-person-circle"></i> {{ auth()->guard('customer')->user()->name }}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                        <a class="dropdown-item" href="{{ route('customer-profile') }}">
+                            <i class="bi bi-person"></i>  Profile
+                        </a>
 
                         <form action="{{ route('customer-logout') }}" method="POST" id="customer-logout-form">
                             @csrf
                         </form>
                         <a class="dropdown-item" href="#"
                            onclick="if(confirm('Are you sure?')){$('#customer-logout-form').submit();}">
-                            Logout
+                            <i class="bi bi-box-arrow-right"></i> Logout
                         </a>
                     </div>
                 </li>
             @endif
 
             @if(!auth('seller')->check() && !auth('customer')->check())
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                       data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">
-                        <i class="bi bi-gear"></i> Setting
+                <li class="nav-item mx-3">
+                    <a class="nav-link border border-primary rounded-3" href="{{ route('customer-login') }}">
+                        <i class="bi bi-person"></i> Customer Login
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ route('customer-login') }}">
-                            <i class="bi bi-user"></i> Customer Login
-                        </a>
-                        <a class="dropdown-item" href="{{ route('seller-login') }}">
-                            <i class="bi bi-shop"></i> Seller Login
-                        </a>
-
-                    </div>
+                </li>
+                <li class="nav-item mx-3">
+                    <a class="nav-link border border-secondary rounded-3" href="{{ route('seller-login') }}">
+                        <i class="bi bi-shop"></i> Seller Login
+                    </a>
                 </li>
             @endif
         </ul>

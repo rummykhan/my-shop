@@ -43,6 +43,6 @@ class SellerController extends Controller
     {
         Auth::guard('seller')->logout();
 
-        return back()->with('success', 'Logged out!');
+        return redirect()->route('home')->with('success', 'Logged out!');
     }
 }
