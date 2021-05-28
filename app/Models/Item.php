@@ -16,9 +16,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $image
  * @property float $price
  * @property integer $category_id
+ * @property integer $seller_id
  *
  * @property string $created_at
  * @property string $updated_at
+ *
+ * @property Seller $seller
  */
 class Item extends Model
 {
@@ -33,5 +36,10 @@ class Item extends Model
         }
 
         return asset('/items/' . $this->image);
+    }
+
+    public function seller()
+    {
+        return $this->belongsTo(Seller::class, 'seller_id', 'id');
     }
 }

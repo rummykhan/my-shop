@@ -16,6 +16,7 @@ class ItemController extends Controller
     public function index()
     {
         $items = Item::query()
+            ->where('seller_id', auth('seller')->id())
             ->orderBy('id', 'DESC')
             ->paginate(25);
 
@@ -33,6 +34,7 @@ class ItemController extends Controller
         $item->title = $request->get('item_title');
         $item->price = $request->get('item_price');
         $item->image = $request->file('item_image')->store('', 'items');
+        $item->seller_id = auth('seller')->id();
         $item->save();
 
         return redirect()->route('items-index')->with('success', 'Item added successfully!');
@@ -40,7 +42,9 @@ class ItemController extends Controller
 
     public function editItem($id)
     {
-        $item = Item::where('id', $id)->firstOrFail();
+        $item = Item::where('id', $id)
+            ->where('seller_id', auth('seller')->id())
+            ->firstOrFail();
 
         return view('items.edit', [
             'item' => $item,
@@ -49,7 +53,9 @@ class ItemController extends Controller
 
     public function updateItem($id, ItemUpdateRequest $request)
     {
-        $item = Item::where('id', $id)->firstOrFail();
+        $item = Item::where('id', $id)
+            ->where('seller_id', auth('seller')->id())
+            ->firstOrFail();
 
         $item->title = $request->get('item_title');
         $item->price = $request->get('item_price');
@@ -77,8 +83,12 @@ class ItemController extends Controller
             'Created At'
         ]);
 
+        $items = Item::query()
+            ->where('seller_id', auth('seller')->id())
+            ->get();
+
         /** @var Item $item */
-        foreach (Item::get() as $item) {
+        foreach ($items as $item) {
             fputcsv($handle, [
                 $item->id,
                 $item->title,
@@ -101,8 +111,12 @@ class ItemController extends Controller
             'Created At'
         ];
 
+        $items = Item::query()
+            ->where('seller_id', auth('seller')->id())
+            ->get();
+
         /** @var Item $item */
-        foreach (Item::get() as $item) {
+        foreach ($items as $item) {
             $data[] = [
                 $item->id,
                 $item->title,
