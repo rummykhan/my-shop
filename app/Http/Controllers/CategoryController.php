@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
@@ -35,19 +36,22 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'image'=> ['image', 'required']
+            'name' => [
+                'required',
+                Rule::unique('categories', 'name')
+            ],
+            'image' => ['image', 'required']
         ]);
 
         $name = $request->file('image')->store('', 'categories');
 
-        if(false === $name){
+        if (false === $name) {
             return back()->with('error', 'Unable to save image.');
         }
 
@@ -62,7 +66,7 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Category  $category
+     * @param \App\Models\Category $category
      * @return \Illuminate\Http\Response
      */
     public function show(Category $category)
@@ -73,7 +77,7 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Category  $category
+     * @param \App\Models\Category $category
      * @return \Illuminate\Http\Response
      */
     public function edit(Category $category)
@@ -84,24 +88,30 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Category  $category
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Category $category
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Category $category)
     {
         $request->validate([
-            'name' => 'required',
-            'image'=> ['image', 'required']
+            'name' => [
+                'required',
+                Rule::unique('categories', 'name')->ignore($category->id)
+            ],
+            'image' => ['image',]
         ]);
 
-        $name = $request->file('image')->store('', 'categories');
-        if(false === $name){
-            return back()->with('error', 'Unable to save image, please try again');
+        if ($request->hasFile('image')) {
+            $name = $request->file('image')->store('', 'categories');
+            if (false === $name) {
+                return back()->with('error', 'Unable to save image, please try again');
+            }
         }
 
+
         $category->update($request->all());
-        $category->image = $name;
+        $category->image = $name ?? $category->image;
         $category->save();
 
         return back()->with('success', 'Category updated!');
@@ -110,7 +120,7 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Category  $category
+     * @param \App\Models\Category $category
      * @return \Illuminate\Http\Response
      */
     public function destroy(Category $category)
